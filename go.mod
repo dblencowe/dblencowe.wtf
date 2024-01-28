@@ -1,4 +1,4 @@
-module github.com/chrede88/qubtTemplate
+module github.com/dblencowe/dblencowe.wtf
 
 go 1.21.6
 
