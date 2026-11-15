@@ -159,17 +159,17 @@ The runner role can read IAM but not change it, so the pipeline can't widen its 
    |----------|-------|
    | `AWS_REGION` | `eu-west-1` |
    | `AWS_ENTRY_ROLE_ARN` | The entry role ARN from step 1 |
-   | `TF_STATE_BUCKET` | S3 bucket for Terraform state (the state key is `dblencowe-wtf/terraform.tfstate`) |
+   | `TF_STATE_BUCKET` | `infra-tfstate-088159773625` (state key `dblencowe-wtf/terraform.tfstate`, which already holds the applied mail records) |
    | `AWS_RUNNER_ROLE_ARN` | The `runner_role_arn` output from step 3 |
 
-3. **Create the runner role locally.** Copy `infra/backend.hcl.example` to `infra/backend.hcl` and fill in the state bucket. Then, with admin credentials in your shell (`AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY` and, if needed, `AWS_SESSION_TOKEN`) plus `TF_VAR_entry_role_arn` and `TF_VAR_state_bucket_name`, run:
+3. **Create the runner role locally.** Copy `infra/backend.hcl.example` to `infra/backend.hcl` and fill in the state bucket. The compose `terraform` service does not mount `~/.aws`, so get credentials into the shell first - `eval "$(aws configure export-credentials --format env)"` does it without printing them - along with `TF_VAR_entry_role_arn` and `TF_VAR_state_bucket_name`, then run:
 
    ```bash
    docker compose run --rm terraform init -backend-config=backend.hcl
    docker compose run --rm terraform apply -target=aws_iam_role_policy.github_runner
    ```
 
-   Commit the generated `infra/.terraform.lock.hcl`.
+   `infra/.terraform.lock.hcl` is already committed, so there is nothing to commit afterwards.
 4. **Detach the hostnames from the old distribution.** `dblencowe.wtf` and `www.dblencowe.wtf` still belong to the CloudFront distribution that serves the 2023 placeholder page, and a hostname can only be attached to one distribution. Remove both from that distribution's alternate domain names. The placeholder stops responding until the first deploy finishes.
 5. **Deploy.** Push to `main` or run the workflow manually. The first run takes a while, because the certificate has to validate and the new distribution has to deploy.
 
