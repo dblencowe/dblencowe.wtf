@@ -1,0 +1,76 @@
+title = "dblencowe.wtf"
+baseURL = 'https://dblencowe.wtf/'
+
+# This is what goes in <html lang="">
+languageCode = 'en-us'
+
+# This defines how dates are formatted
+defaultContentLanguage = "en-us"
+
+# Enable emojis globally
+enableEmoji = true
+ignoreErrors = ["additional-script-loading-error"]
+
+# Theme
+theme = "hugo-blog-awesome"
+
+[markup]
+  [markup.highlight]
+    noClasses = false
+  [markup.goldmark.renderer]
+    unsafe = true
+  [markup.tableOfContents]
+    startLevel = 2
+    endLevel = 4
+    ordered = false
+
+############################## English language ################################
+[Languages.en-us]
+  languageName = "English"
+  languageCode = "en-us"
+  contentDir = "content"
+  weight = 1
+
+  [Languages.en-us.menu]
+  [[Languages.en-us.menu.main]]
+    pageRef="/"
+    name = 'Home'
+    url = '/'
+    weight = 10
+  [[Languages.en-us.menu.main]]
+    pageRef="posts"
+    name = 'Posts'
+    url = '/posts/'
+    weight = 20
+  [[Languages.en-us.menu.main]]
+    pageRef="about"
+    name = 'About'
+    url = '/about/'
+    weight = 30
+
+[Languages.en-us.params]
+  sitename = "dblencowe.wtf"
+  defaultColor = "auto" # set color mode: dark, light, auto
+  description = "Personal website and blog"
+  mainSections = ['posts']
+  toc = true
+  tocOpen = false
+  goToTop = true
+  dateFormat = ""
+  rssFeedDescription = "summary"
+
+[Languages.en-us.params.author]
+  intro = "Welcome to dblencowe.wtf"
+  name = "Dave Blencowe"
+  description = "Personal website and blog"
+
+[Languages.en-us.params.webmanifest]
+  name = "dblencowe.wtf"
+  short_name = "dblencowe.wtf"
+  start_url = "/"
+  theme_color = "#fcc753"
+  background_color = "#fcc753"
+  display = "standalone"
+
+[params.browserconfig]
+  TileColor = "#fcc753"

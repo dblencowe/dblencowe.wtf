@@ -1,0 +1,43 @@
+# Local development environment.
+#
+#   docker compose up                           # dev server on http://localhost:1313
+#   docker compose run --rm hugo --gc --minify  # production build into public/
+#   docker compose run --rm terraform plan      # Terraform for infra/ (see README.md)
+name: dblencowe-wtf
+
+services:
+  hugo:
+    # Keep in step with HUGO_VERSION in .github/workflows/deploy.yml.
+    image: ghcr.io/gohugoio/hugo:v0.166.0
+    command:
+      - server
+      - --bind=0.0.0.0
+      - --buildDrafts
+      - --buildFuture
+      # Docker Desktop doesn't deliver file-change events from Windows and macOS
+      # bind mounts, so poll to keep live reload working.
+      - --poll=700ms
+    ports:
+      - "1313:1313"
+    volumes:
+      - .:/project
+      - hugo-cache:/cache
+
+  terraform:
+    # Keep in step with TERRAFORM_VERSION in .github/workflows/deploy.yml.
+    image: hashicorp/terraform:1.16.2
+    profiles: [tools]
+    working_dir: /workspace
+    volumes:
+      - ./infra:/workspace
+    # Passed through from your shell when set.
+    environment:
+      - AWS_ACCESS_KEY_ID
+      - AWS_SECRET_ACCESS_KEY
+      - AWS_SESSION_TOKEN
+      - AWS_REGION
+      - TF_VAR_entry_role_arn
+      - TF_VAR_state_bucket_name
+
+volumes:
+  hugo-cache:
