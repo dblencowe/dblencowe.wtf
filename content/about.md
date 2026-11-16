@@ -1,12 +1,12 @@
 ---
 title: "About"
-summary: "Dave Blencowe: principal cyber security engineer in Manchester, writing software since 2002."
+summary: "Dave Blencowe: principal cyber security engineer in Manchester."
 toc: false
 ---
 
 I'm Dave Blencowe, a principal cyber security engineer at [watchTowr](https://watchtowr.com), based in Manchester.
 
-I've been writing software since 2002. I started with PHP and WordPress, moved on to e-commerce platforms, then to leading teams and the infrastructure under them. Most of my work now sits where development, infrastructure and security meet.
+I started out building websites in PHP and WordPress, moved on to e-commerce platforms, then to leading teams and the infrastructure under them. Most of my work now sits where development, infrastructure and security meet.
 
 This site is where I write up what I build, at work and at home: cloud infrastructure, games in Unreal Engine, homelab networking, and things made in the workshop. Articles are grouped by [project](/projects/), and the [skills page](/skills/) shows what each one covers.
 
