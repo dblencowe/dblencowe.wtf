@@ -1,0 +1,39 @@
+# The fixed skills vocabulary (docs/specs/devlog.md D7).
+# An article's `skills` must use slugs from this list; the build fails otherwise.
+# Add a skill here in the same change as the first article that needs it.
+domains:
+  infra: "Cloud & infra"
+  game: "Game dev"
+  soft: "Software"
+  make: "Making"
+
+# Order of domains on the skills page.
+domainOrder: [infra, game, soft, make]
+
+skills:
+  aws: { name: "AWS", domain: infra }
+  terraform: { name: "Terraform", domain: infra }
+  dns: { name: "DNS", domain: infra }
+  ansible: { name: "Ansible", domain: infra }
+  kubernetes: { name: "Kubernetes", domain: infra }
+  linux: { name: "Linux", domain: infra }
+  networking: { name: "Networking", domain: infra }
+  github-actions: { name: "GitHub Actions", domain: infra }
+  unreal-cpp: { name: "Unreal C++", domain: game }
+  blueprints: { name: "Blueprints", domain: game }
+  multiplayer: { name: "Multiplayer", domain: game }
+  procedural: { name: "Procedural generation", domain: game }
+  vr: { name: "VR", domain: game }
+  steamworks: { name: "Steamworks", domain: game }
+  go: { name: "Go", domain: soft }
+  python: { name: "Python", domain: soft }
+  typescript: { name: "TypeScript", domain: soft }
+  hugo: { name: "Hugo", domain: soft }
+  testing: { name: "Testing", domain: soft }
+  scraping: { name: "Web scraping", domain: soft }
+  3d-printing: { name: "3D printing", domain: make }
+  openscad: { name: "OpenSCAD", domain: make }
+  electronics: { name: "Electronics", domain: make }
+  embedded: { name: "Embedded", domain: make }
+  home-assistant: { name: "Home Assistant", domain: make }
+  woodwork: { name: "Woodwork", domain: make }

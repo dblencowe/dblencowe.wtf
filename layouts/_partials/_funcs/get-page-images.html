@@ -1,0 +1,13 @@
+{{- /*
+  Overrides Hugo's built-in image picker for Open Graph and Twitter cards.
+  The built-in one publishes the original cover file (and its EXIF); this
+  returns a processed 1200x630 crop of the page's `cover` instead.
+  Returns a slice of image resources, as the built-in does.
+*/ -}}
+{{- $imgs := slice -}}
+{{- with .Params.cover -}}
+  {{- with $.Resources.Get . -}}
+    {{- $imgs = $imgs | append (.Fill "1200x630 Center jpg q80") -}}
+  {{- end -}}
+{{- end -}}
+{{- return $imgs -}}

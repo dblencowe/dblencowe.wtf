@@ -14,11 +14,29 @@ ignoreErrors = ["additional-script-loading-error"]
 # Theme
 theme = "hugo-blog-awesome"
 
+# Dev log taxonomies (docs/specs/devlog.md D5). Defining these replaces Hugo's
+# default tags and categories.
+[taxonomies]
+  project = "projects"
+  skill = "skills"
+
+# Publish only processed copies of images in articles and projects, never the
+# originals (and their EXIF). Set here rather than in section front matter so it
+# also reaches project term pages.
+[[cascade]]
+  [cascade.build]
+    publishResources = false
+  [cascade.target]
+    path = "{/posts/**,/projects/**}"
+
 [markup]
   [markup.highlight]
     noClasses = false
   [markup.goldmark.renderer]
     unsafe = true
+  # Lets the image render hook output a <figure> for an image on its own line.
+  [markup.goldmark.parser]
+    wrapStandAloneImageWithinParagraph = false
   [markup.tableOfContents]
     startLevel = 2
     endLevel = 4
@@ -28,25 +46,25 @@ theme = "hugo-blog-awesome"
 [Languages.en-us]
   languageName = "English"
   languageCode = "en-us"
-  contentDir = "content"
   weight = 1
 
   [Languages.en-us.menu]
   [[Languages.en-us.menu.main]]
     pageRef="/"
     name = 'Home'
-    url = '/'
     weight = 10
   [[Languages.en-us.menu.main]]
-    pageRef="posts"
-    name = 'Posts'
-    url = '/posts/'
+    pageRef="projects"
+    name = 'Projects'
     weight = 20
+  [[Languages.en-us.menu.main]]
+    pageRef="skills"
+    name = 'Skills'
+    weight = 30
   [[Languages.en-us.menu.main]]
     pageRef="about"
     name = 'About'
-    url = '/about/'
-    weight = 30
+    weight = 40
 
 [Languages.en-us.params]
   sitename = "dblencowe.wtf"

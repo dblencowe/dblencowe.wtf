@@ -1,0 +1,6 @@
+# Allowed project statuses, in the order projects are listed (D4).
+order: [active, shipped, parked]
+labels:
+  active: "Active"
+  shipped: "Shipped"
+  parked: "Parked"

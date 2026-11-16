@@ -1,0 +1,5 @@
+# Allowed values for an article's `kind` (docs/specs/devlog.md D6).
+guide: "Guide"
+devlog: "Dev log"
+writeup: "Write-up"
+build: "Build"

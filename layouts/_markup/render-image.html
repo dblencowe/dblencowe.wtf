@@ -1,0 +1,48 @@
+{{- /*
+  Every Markdown image goes through here (docs/specs/devlog.md, Images).
+  Images must live in the page's own folder and have alt text; raster images
+  are converted to WebP at a few widths. Originals are never published
+  (publishResources: false), and processed copies carry no EXIF.
+*/ -}}
+{{- $where := .Page.RelPermalink -}}
+{{- with .Page.File }}{{ $where = .Path }}{{ end -}}
+{{- $u := urls.Parse .Destination -}}
+{{- if or $u.IsAbs (hasPrefix .Destination "/") -}}
+  {{- errorf "devlog: %s: image %q must be a file in the page's folder, not a URL or site path" $where .Destination -}}
+{{- end -}}
+{{- $img := .Page.Resources.Get $u.Path -}}
+{{- if not $img -}}
+  {{- errorf "devlog: %s: image %q is not in the page's folder" $where .Destination -}}
+{{- end -}}
+{{- $alt := trim .PlainText " \t\n" -}}
+{{- if not $alt -}}
+  {{- errorf "devlog: %s: image %q has no alt text" $where .Destination -}}
+{{- end -}}
+
+{{- $tag := "" -}}
+{{- if in (slice "svg" "gif") $img.MediaType.SubType -}}
+  {{- $tag = printf `<img src="%s" alt="%s" loading="lazy" decoding="async">` $img.RelPermalink $alt -}}
+{{- else -}}
+  {{- $widths := slice -}}
+  {{- range slice 480 960 1600 -}}
+    {{- if le . $img.Width }}{{ $widths = $widths | append . }}{{ end -}}
+  {{- end -}}
+  {{- if not $widths }}{{ $widths = slice $img.Width }}{{ end -}}
+  {{- $set := slice -}}
+  {{- $src := "" -}}
+  {{- range $widths -}}
+    {{- $r := $img.Resize (printf "%dx webp q80" .) -}}
+    {{- $set = $set | append (printf "%s %dw" $r.RelPermalink $r.Width) -}}
+    {{- if or (not $src) (le $r.Width 960) }}{{ $src = $r }}{{ end -}}
+  {{- end -}}
+  {{- $tag = printf `<img src="%s" srcset="%s" sizes="(max-width: 720px) 100vw, 720px" width="%d" height="%d" alt="%s" loading="lazy" decoding="async">` $src.RelPermalink (delimit $set ", ") $src.Width $src.Height $alt -}}
+{{- end -}}
+
+{{- if .IsBlock -}}
+<figure class="devlog-figure">
+  {{ $tag | safeHTML }}
+  {{- with .Title }}<figcaption>{{ . | markdownify }}</figcaption>{{ end }}
+</figure>
+{{- else -}}
+{{ $tag | safeHTML }}
+{{- end -}}
