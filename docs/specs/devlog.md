@@ -1,6 +1,6 @@
 # Spec: dev log (projects, skills, images)
 
-**Status:** awaiting Dave's approval. Nothing below is built until it's approved.
+**Status:** approved by Dave on 2026-11-16. WP0 to WP8 built: HEADLESS-GREEN (`scripts/test-site.sh`, 33 checks), and awaiting Dave's visual check.
 **Branch:** `feature/devlog`
 **Design:** option B (project shelves) plus option C's filterable skills page, chosen by Dave on 2026-11-16. Mock-ups: https://claude.ai/artifact/K5cRoqU3XKKgZMNDWnK7uQ
 
@@ -152,7 +152,7 @@ content/posts/terraform-remote-state/
    - converts raster images to WebP at 480, 960 and 1600px wide (never wider than the original), with `srcset`, `sizes`, `width`, `height`, `loading="lazy"` and `decoding="async"`;
    - passes SVG and GIF through unchanged.
 4. **Covers** are cropped to 16:9 in WebP for cards (640px) and article headers (1600px).
-5. **Only processed copies are published.** `posts` and `projects` set `build.publishResources: false` through `cascade`, so originals never reach S3.
+5. **Only processed copies are published.** A `[[cascade]]` in `hugo.toml` sets `build.publishResources: false` for `/posts/**` and `/projects/**`, so originals never reach S3. (Section front matter didn't reach the project term pages, so the cascade lives in config.)
 6. **Screenshots are checked before they're committed** for account IDs, tokens, internal hostnames and IP addresses. The agent crops or blurs them, and says what it changed in the PR.
 
 ## Writing guard
@@ -213,6 +213,17 @@ Each WP is committed when its tests go green.
 
 Passing tests make it HEADLESS-GREEN. The layout and look (WP4 to WP7) are DONE only when Dave has checked them on `docker compose up`, in light and dark and at phone width.
 
+## Implementation notes
+
+Changes from the plan above, found while building:
+
+- **RSS template.** The theme's `rss.xml` reads `.Site.Author`, which Hugo removed in 0.156, so the site didn't build on the pinned Hugo 0.166, `main` included. `layouts/rss.xml` replaces it.
+- **Open Graph images.** The theme's head calls Hugo's built-in Open Graph template, which published any `cover.*` file at full size, EXIF and all. `layouts/_partials/_funcs/get-page-images.html` replaces the built-in image picker with a processed 1200×630 crop of `cover`.
+- **Fixed lists.** Kinds and statuses live in `data/kinds.yaml` and `data/statuses.yaml` next to `data/skills.yaml`, so templates and validation read one source.
+- **Validation** runs from the home page template (`layouts/_partials/devlog/validate.html`), so every rule runs on every build.
+- **Fixtures** are built as `tests/fixtures/base` plus an overlay: `good/` for the passing site, and `bad/<case>/content` with an `expect.txt` for each failing case.
+- **Theme deprecations.** The vendored theme still uses fields Hugo has deprecated (`.Site.LanguageCode`, `.Language.LanguageName`). These are warnings for now; T1 ignores deprecation warnings and fails on any other kind.
+
 ## Out of scope
 
 - Moving the drafts from the vault into articles (next step, once this is approved).
@@ -221,5 +232,5 @@ Passing tests make it HEADLESS-GREEN. The layout and look (WP4 to WP7) are DONE 
 
 ## Open questions (2)
 
-1. **Licence for the tropes file.** tropes.fyi doesn't state one. The repo has no remote yet; if it's ever pushed somewhere public, a verbatim copy would be redistributed. Default: commit it with its attribution intact; if you'd rather not, it goes in `.gitignore` and `docs/articles.md` tells agents to fetch it.
-2. **First projects.** Default: create project pages only for projects that have an article. When the three drafts move over, that's AWS & Terraform and Workshop.
+1. **Licence for the tropes file.** tropes.fyi doesn't state one. The repo has no remote yet; if it's ever pushed somewhere public, a verbatim copy would be redistributed. Applied default: committed with its attribution intact.
+2. **First projects.** Applied default: project pages are only created for projects that have an article. None exist yet, so the live site has no articles until the drafts move over (next step).

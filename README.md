@@ -19,21 +19,28 @@ Personal website and blog built with [Hugo](https://gohugo.io/) using the [hugo-
 dblencowe-wtf/
 ├── .github/workflows/
 │   └── deploy.yml             # Build, Terraform and publish to AWS
-├── assets/
-│   └── sass/
-│       └── main.scss          # Custom SCSS with color overrides
-├── content/                    # Your content goes here
+├── archetypes/                # Templates for new articles and projects
+├── assets/sass/               # Colour overrides (main.scss) and dev log styles (_custom.scss)
+├── content/
 │   ├── _index.md              # Homepage
 │   ├── about.md               # About page
-│   └── posts/                 # Blog posts
-│       ├── _index.md
-│       └── first-post.md
-├── infra/                      # Terraform: S3, CloudFront, DNS, mail records, CI role
-├── static/                     # Static files (images, etc.)
+│   ├── posts/<slug>/          # One folder per article: index.md plus its images
+│   ├── projects/<slug>/       # One folder per project: _index.md plus cover.jpg
+│   └── skills/_index.md       # The skills page
+├── data/                      # Fixed lists: skills, article kinds, project statuses
+├── docs/
+│   ├── articles.md            # How to add articles, projects and images
+│   ├── specs/devlog.md        # Design decisions for the dev log
+│   └── writing/               # Writing guidance for agents (never published)
+├── infra/                     # Terraform: S3, CloudFront, DNS, mail records, CI role
+├── layouts/                   # Site templates; these override the theme
+├── scripts/test-site.sh       # Headless tests for the site
+├── tests/fixtures/            # Test content used by scripts/test-site.sh
 ├── themes/
-│   └── hugo-blog-awesome/     # Vendored theme files (not a git submodule)
-├── compose.yaml                # Docker development environment
-├── hugo.toml                   # Hugo configuration
+│   └── hugo-blog-awesome/     # Vendored theme files (not a git submodule; left untouched)
+├── AGENTS.md                  # Notes for coding agents
+├── compose.yaml               # Docker development environment
+├── hugo.toml                  # Hugo configuration
 └── README.md
 ```
 
@@ -57,35 +64,23 @@ The generated site will be in the `public/` directory. Deployments build the sit
 
 ### Creating New Content
 
-#### Create a New Post
+The site is a dev log: articles belong to projects and are tagged with skills from a fixed list. Nothing shows a date. [docs/articles.md](docs/articles.md) has the full process, including images.
 
 ```bash
-docker compose run --rm hugo new content posts/my-new-post.md
+docker compose run --rm hugo new content projects/my-project
 ```
 
-Or manually create a file in `content/posts/` with front matter:
-
-```markdown
----
-title: "My New Post"
-date: 2025-02-17
-draft: false
----
-
-Your content here...
+```bash
+docker compose run --rm hugo new content posts/my-article
 ```
 
-#### Create a New Page
+### Testing
 
-Create a new `.md` file in the `content/` directory:
-
-```markdown
----
-title: "Page Title"
----
-
-Page content...
+```bash
+docker compose run --rm --entrypoint sh hugo scripts/test-site.sh
 ```
+
+This builds the real site and the fixture content under `tests/fixtures/`. It checks the content rules, image handling, that no dates appear, page ordering and the skills page. The last line reads `RESULT pass=N fail=0 found=N` when everything passes.
 
 ### Customization
 
@@ -112,7 +107,7 @@ See the theme documentation at https://github.com/hugo-sid/hugo-blog-awesome for
 
 #### Adding Custom Assets
 
-- **Images**: Place in `static/` directory (e.g., `static/images/photo.jpg`)
+- **Images**: Put article and project images in their own folder under `content/`; see [docs/articles.md](docs/articles.md). `static/` is only for site-wide files such as icons.
 - **Custom JavaScript**: Add to `assets/js/` and reference in `hugo.toml` under `params.additionalScripts`
 - **Custom CSS**: Add to `assets/sass/_custom.scss` or extend `assets/sass/main.scss`
 
