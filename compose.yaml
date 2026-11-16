@@ -17,6 +17,9 @@ services:
       # Docker Desktop doesn't deliver file-change events from Windows and macOS
       # bind mounts, so poll to keep live reload working.
       - --poll=700ms
+      # Serve from memory: writing to public/ on a Windows bind mount fails
+      # ("chtimes /project/public: operation not permitted").
+      - --renderToMemory
     ports:
       - "1313:1313"
     volumes:
