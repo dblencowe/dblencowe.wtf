@@ -1,6 +1,6 @@
 # Spec: dev log (projects, skills, images)
 
-**Status:** approved by Dave on 2026-11-16. WP0 to WP8 built: HEADLESS-GREEN (`scripts/test-site.sh`, 33 checks), and awaiting Dave's visual check.
+**Status:** DONE. Approved by Dave and built on 2026-11-16; `scripts/test-site.sh` passes all 42 checks, and Dave gave his visual verdict ("looks good") the same day.
 **Branch:** `feature/devlog`
 **Design:** option B (project shelves) plus option C's filterable skills page, chosen by Dave on 2026-11-16. Mock-ups: https://claude.ai/artifact/K5cRoqU3XKKgZMNDWnK7uQ
 
