@@ -1,0 +1,18 @@
+{{- define "main" -}}
+{{- /* Every article, grouped under its project (no year headings: D3). */ -}}
+<div class="wrapper list-page">
+  <header class="header">
+    <h1 class="header-title center">{{ .Title }}</h1>
+  </header>
+  <main class="page-content" aria-label="Content">
+    {{- range $proj := partial "devlog/projects-ordered.html" . }}
+    {{- with $proj.Pages.ByWeight }}
+    <section class="devlog-group">
+      <h2 class="devlog-group-title"><a href="{{ $proj.RelPermalink }}">{{ $proj.Title }}</a></h2>
+      {{- range . }}{{ partial "postCard" . }}{{ end }}
+    </section>
+    {{- end }}
+    {{- end }}
+  </main>
+</div>
+{{- end -}}

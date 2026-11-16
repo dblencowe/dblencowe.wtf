@@ -1,0 +1,98 @@
+{{- define "main" -}}
+{{- /*
+  Skills grouped by domain, then a filterable index of every article (D2).
+  Without JavaScript the filter chips stay hidden and the skill links above
+  still work; the script only hides rows.
+*/ -}}
+{{- $data := hugo.Data.skills -}}
+{{- $used := site.Taxonomies.skills -}}
+<div class="wrapper devlog-wide">
+  <header class="header">
+    <h1 class="header-title center">{{ .Title }}</h1>
+    {{- with .Params.summary }}<p class="devlog-lede center">{{ . }}</p>{{ end }}
+  </header>
+  <main aria-label="Content">
+    <div class="devlog-domains">
+      {{- range $d := $data.domainOrder }}
+      {{- $rows := slice }}
+      {{- range $slug, $s := $data.skills }}{{ if and (eq $s.domain $d) (index $used $slug) }}{{ $rows = $rows | append (dict "slug" $slug "name" $s.name "n" (len (index $used $slug))) }}{{ end }}{{ end }}
+      {{- with $rows }}
+      <section class="devlog-domain">
+        <h2 class="devlog-group-title">{{ index $data.domains $d }}</h2>
+        <ul class="devlog-skill-list">
+          {{- range sort . "n" "desc" }}
+          <li><a href="{{ (site.GetPage (printf "/skills/%s" .slug)).RelPermalink }}">{{ .name }}</a> <span class="devlog-count">{{ .n }}</span></li>
+          {{- end }}
+        </ul>
+      </section>
+      {{- end }}
+      {{- end }}
+    </div>
+
+    <section class="devlog-index" aria-labelledby="devlog-index-title">
+      <h2 class="devlog-group-title" id="devlog-index-title">Every article</h2>
+      <div class="devlog-filters" id="devlog-filters" hidden>
+        <div class="devlog-filter-row" role="group" aria-label="Filter by area">
+          {{- range $data.domainOrder }}
+          <button type="button" class="devlog-filter" data-kind="domain" data-value="{{ . }}" aria-pressed="false">{{ index $data.domains . }}</button>
+          {{- end }}
+        </div>
+        <div class="devlog-filter-row" role="group" aria-label="Filter by skill">
+          {{- range $slug, $s := $data.skills }}{{ if index $used $slug }}
+          <button type="button" class="devlog-filter" data-kind="skill" data-value="{{ $slug }}" aria-pressed="false">{{ $s.name }}</button>
+          {{- end }}{{ end }}
+        </div>
+      </div>
+      <div class="devlog-table-wrap">
+        <table class="devlog-table">
+          <thead><tr><th scope="col">Article</th><th scope="col">Project</th><th scope="col">Kind</th></tr></thead>
+          <tbody id="devlog-rows">
+            {{- range $proj := partial "devlog/projects-ordered.html" . }}
+            {{- range $proj.Pages.ByWeight }}
+            {{- $domains := slice }}
+            {{- range .Params.skills }}{{ with index $data.skills . }}{{ $domains = $domains | append .domain }}{{ end }}{{ end }}
+            <tr data-skills="{{ delimit .Params.skills " " }}" data-domains="{{ delimit ($domains | uniq) " " }}">
+              <td><a href="{{ .RelPermalink }}">{{ .Title }}</a></td>
+              <td><a href="{{ $proj.RelPermalink }}">{{ $proj.Title }}</a></td>
+              <td>{{ index hugo.Data.kinds .Params.kind | default .Params.kind }}</td>
+            </tr>
+            {{- end }}
+            {{- end }}
+          </tbody>
+        </table>
+      </div>
+      <p class="devlog-count-line" id="devlog-count" aria-live="polite"></p>
+    </section>
+  </main>
+</div>
+<script>
+(function () {
+  var box = document.getElementById('devlog-filters');
+  var rows = Array.prototype.slice.call(document.querySelectorAll('#devlog-rows tr'));
+  var count = document.getElementById('devlog-count');
+  if (!box || !rows.length) return;
+  box.hidden = false;
+  var buttons = Array.prototype.slice.call(box.querySelectorAll('.devlog-filter'));
+  function apply() {
+    var on = buttons.filter(function (b) { return b.getAttribute('aria-pressed') === 'true'; });
+    var shown = 0;
+    rows.forEach(function (r) {
+      var ok = on.every(function (b) {
+        var list = (b.dataset.kind === 'domain' ? r.dataset.domains : r.dataset.skills).split(' ');
+        return list.indexOf(b.dataset.value) !== -1;
+      });
+      r.hidden = !ok;
+      if (ok) shown++;
+    });
+    count.textContent = shown + (shown === 1 ? ' article' : ' articles');
+  }
+  buttons.forEach(function (b) {
+    b.addEventListener('click', function () {
+      b.setAttribute('aria-pressed', b.getAttribute('aria-pressed') === 'true' ? 'false' : 'true');
+      apply();
+    });
+  });
+  apply();
+})();
+</script>
+{{- end -}}

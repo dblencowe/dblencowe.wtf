@@ -1,0 +1,12 @@
+{{- /* Returns a project's most-shown skill slugs (up to .limit). Context: dict "project" "limit". */ -}}
+{{- $counts := dict -}}
+{{- range .project.Pages -}}
+  {{- range .Params.skills -}}
+    {{- $counts = merge $counts (dict . (add (index $counts . | default 0) 1)) -}}
+  {{- end -}}
+{{- end -}}
+{{- $rows := slice -}}
+{{- range $k, $v := $counts }}{{ $rows = $rows | append (dict "k" $k "n" $v) }}{{ end -}}
+{{- $out := slice -}}
+{{- range first (.limit | default 3) (sort $rows "n" "desc") }}{{ $out = $out | append .k }}{{ end -}}
+{{- return $out -}}

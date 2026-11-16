@@ -1,0 +1,23 @@
+{{- define "main" -}}
+{{- $s := index hugo.Data.skills.skills .Data.Term -}}
+{{- $name := cond (isset $s "name") $s.name .Title -}}
+<div class="wrapper list-page">
+  <header class="header devlog-header">
+    <p class="devlog-eyebrow"><a href="{{ (site.GetPage "/skills").RelPermalink }}">Skills</a>{{ with $s }} · {{ index hugo.Data.skills.domains .domain }}{{ end }}</p>
+    <h1 class="header-title">{{ $name }}</h1>
+  </header>
+  <main class="page-content" aria-label="Content">
+    {{- $term := . }}
+    {{- range $proj := partial "devlog/projects-ordered.html" . }}
+    {{- $arts := slice }}
+    {{- range $proj.Pages.ByWeight }}{{ if in .Params.skills $term.Data.Term }}{{ $arts = $arts | append . }}{{ end }}{{ end }}
+    {{- with $arts }}
+    <section class="devlog-group">
+      <h2 class="devlog-group-title"><a href="{{ $proj.RelPermalink }}">{{ $proj.Title }}</a></h2>
+      {{- range . }}{{ partial "postCard" . }}{{ end }}
+    </section>
+    {{- end }}
+    {{- end }}
+  </main>
+</div>
+{{- end -}}

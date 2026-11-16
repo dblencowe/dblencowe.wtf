@@ -1,0 +1,6 @@
+{{- /* Returns an article's project page, or nil. */ -}}
+{{- $p := false -}}
+{{- with .Params.projects -}}
+  {{- $p = site.GetPage (printf "/projects/%s" (index . 0 | urlize)) -}}
+{{- end -}}
+{{- return $p -}}

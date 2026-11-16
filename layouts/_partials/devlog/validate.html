@@ -1,0 +1,60 @@
+{{- /*
+  Fails the build when an article or project breaks the dev log rules
+  (docs/specs/devlog.md D9). Called once, from the home page, so every rule
+  runs on every build.
+*/ -}}
+{{- $skills := hugo.Data.skills.skills -}}
+{{- $kinds := hugo.Data.kinds -}}
+{{- $statuses := hugo.Data.statuses.order -}}
+
+{{- range where site.RegularPages "Section" "posts" -}}
+  {{- $where := .File.Path -}}
+  {{- $projects := .Params.projects | default slice -}}
+  {{- if ne (len $projects) 1 -}}
+    {{- errorf "devlog: %s: needs exactly one project in `projects`, has %d" $where (len $projects) -}}
+  {{- else -}}
+    {{- $proj := site.GetPage (printf "/projects/%s" (index $projects 0 | urlize)) -}}
+    {{- if or (not $proj) (not $proj.File) -}}
+      {{- errorf "devlog: %s: project %q has no page; create content/projects/%s/_index.md" $where (index $projects 0) (index $projects 0) -}}
+    {{- end -}}
+  {{- end -}}
+
+  {{- $kind := .Params.kind | default "" -}}
+  {{- if not (index $kinds $kind) -}}
+    {{- errorf "devlog: %s: unknown kind %q; use one of guide, devlog, writeup, build" $where $kind -}}
+  {{- end -}}
+
+  {{- $s := .Params.skills | default slice -}}
+  {{- if or (lt (len $s) 2) (gt (len $s) 6) -}}
+    {{- errorf "devlog: %s: needs 2 to 6 skills, has %d" $where (len $s) -}}
+  {{- end -}}
+  {{- range $s -}}
+    {{- if not (index $skills .) -}}
+      {{- errorf "devlog: %s: unknown skill %q; add it to data/skills.yaml or pick an existing one" $where . -}}
+    {{- end -}}
+  {{- end -}}
+
+  {{- $page := . -}}
+  {{- with .Params.cover -}}
+    {{- if not ($page.Resources.Get .) -}}
+      {{- errorf "devlog: %s: cover %q is not in the article's folder" $where . -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
+{{- with site.GetPage "/projects" -}}
+  {{- range .Pages -}}
+    {{- if .File -}}
+      {{- $where := .File.Path -}}
+      {{- if not (in $statuses (.Params.status | default "")) -}}
+        {{- errorf "devlog: %s: status must be active, shipped or parked, got %q" $where (.Params.status | default "") -}}
+      {{- end -}}
+      {{- $cover := .Params.cover | default "" -}}
+      {{- if not $cover -}}
+        {{- errorf "devlog: %s: a project needs a `cover` image" $where -}}
+      {{- else if not (.Resources.Get $cover) -}}
+        {{- errorf "devlog: %s: cover %q is not in the project's folder" $where $cover -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}

@@ -1,0 +1,15 @@
+{{- /* Returns project pages ordered by status (data/statuses.yaml), then weight, then title (D4). */ -}}
+{{- $out := slice -}}
+{{- with site.GetPage "/projects" -}}
+  {{- $all := slice -}}
+  {{- range .Pages }}{{ if .File }}{{ $all = $all | append . }}{{ end }}{{ end -}}
+  {{- range hugo.Data.statuses.order -}}
+    {{- $status := . -}}
+    {{- $group := slice -}}
+    {{- range $all }}{{ if eq .Params.status $status }}{{ $group = $group | append . }}{{ end }}{{ end -}}
+    {{- range sort (sort $group "Title") "Weight" -}}
+      {{- $out = $out | append . -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- return $out -}}

@@ -1,0 +1,12 @@
+{{- /*
+  Article row used in every list. Replaces the theme's card, which printed
+  the date (docs/specs/devlog.md D3).
+*/ -}}
+<article class="post-item devlog-item">
+  <div class="devlog-item-head">
+    <h4 class="post-item-title"><a href="{{ .RelPermalink }}">{{ .Title }}</a></h4>
+    {{- with .Params.kind }}<span class="devlog-kind">{{ index hugo.Data.kinds . | default . }}</span>{{ end }}
+  </div>
+  {{- with .Params.summary }}<p class="devlog-summary">{{ . }}</p>{{ end }}
+  {{ partial "devlog/skill-chips.html" .Params.skills }}
+</article>

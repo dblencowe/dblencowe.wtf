@@ -1,0 +1,14 @@
+{{- /* Project card for /projects/ and the home page. Context: a project page. */ -}}
+<article class="devlog-card">
+  <a class="devlog-card-cover" href="{{ .RelPermalink }}" tabindex="-1" aria-hidden="true">
+    {{- partial "devlog/cover.html" (dict "page" . "width" 640) -}}
+  </a>
+  <div class="devlog-card-body">
+    <div class="devlog-card-head">
+      <h3 class="devlog-card-title"><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3>
+      {{ partial "devlog/status.html" . }}
+    </div>
+    {{- with .Params.summary }}<p class="devlog-summary">{{ . }}</p>{{ end }}
+    {{ partial "devlog/skill-chips.html" (partial "devlog/project-skills.html" (dict "project" . "limit" 3)) }}
+  </div>
+</article>

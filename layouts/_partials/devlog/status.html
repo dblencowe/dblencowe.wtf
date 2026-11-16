@@ -1,0 +1,4 @@
+{{- /* Status pill. Context: a project page. */ -}}
+{{- with .Params.status -}}
+<span class="devlog-status devlog-status--{{ . }}">{{ index hugo.Data.statuses.labels . | default . }}</span>
+{{- end -}}

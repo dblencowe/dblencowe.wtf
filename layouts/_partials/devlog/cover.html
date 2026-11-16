@@ -1,0 +1,13 @@
+{{- /*
+  A 16:9 WebP crop of a page's cover image.
+  Usage: partial "devlog/cover.html" (dict "page" . "width" 640 "class" "x")
+  Covers are decorative (the title sits next to them), so alt is empty.
+*/ -}}
+{{- $w := .width | default 640 -}}
+{{- $h := div (mul $w 9) 16 -}}
+{{- with .page.Params.cover -}}
+  {{- with $.page.Resources.Get . -}}
+    {{- $c := .Fill (printf "%dx%d Center webp q80" $w $h) -}}
+<img class="{{ $.class | default "devlog-cover" }}" src="{{ $c.RelPermalink }}" width="{{ $c.Width }}" height="{{ $c.Height }}" alt="" loading="lazy" decoding="async">
+  {{- end -}}
+{{- end -}}

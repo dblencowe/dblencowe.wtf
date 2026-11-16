@@ -1,0 +1,25 @@
+{{- define "main" -}}
+{{- partial "devlog/validate.html" . -}}
+<div class="wrapper devlog-wide">
+  {{ partial "bio" . }}
+  <main aria-label="Content">
+    {{- $featured := where (where site.RegularPages "Section" "posts") "Params.featured" true }}
+    {{- with $featured }}
+    <h3 class="posts-item-note">Featured</h3>
+    {{- range first 6 .ByWeight }}{{ partial "postCard" . }}{{ end }}
+    {{- end }}
+
+    {{- $active := slice }}
+    {{- range partial "devlog/projects-ordered.html" . }}{{ if eq .Params.status "active" }}{{ $active = $active | append . }}{{ end }}{{ end }}
+    {{- with $active }}
+    <h3 class="posts-item-note">Working on</h3>
+    <div class="devlog-cards">
+      {{- range . }}{{ partial "devlog/project-card.html" . }}{{ end }}
+    </div>
+    {{- end }}
+    {{- with site.GetPage "/projects" }}
+    <p class="devlog-more"><a href="{{ .RelPermalink }}">All projects →</a></p>
+    {{- end }}
+  </main>
+</div>
+{{- end -}}

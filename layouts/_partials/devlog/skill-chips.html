@@ -1,0 +1,13 @@
+{{- /* Skill chips linking to each skill's page. Context: a slice of skill slugs. */ -}}
+{{- with . -}}
+<ul class="devlog-chips">
+  {{- range . -}}
+  {{- $name := (index hugo.Data.skills.skills .).name | default . -}}
+  {{- with site.GetPage (printf "/skills/%s" (. | urlize)) }}
+  <li><a class="devlog-chip" href="{{ .RelPermalink }}">{{ $name }}</a></li>
+  {{- else }}
+  <li><span class="devlog-chip">{{ $name }}</span></li>
+  {{- end -}}
+  {{- end }}
+</ul>
+{{- end -}}

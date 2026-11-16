@@ -1,0 +1,19 @@
+{{- define "main" -}}
+<div class="wrapper list-page">
+  <header class="header devlog-header">
+    <p class="devlog-eyebrow"><a href="{{ (site.GetPage "/projects").RelPermalink }}">Projects</a></p>
+    <h1 class="header-title">{{ .Title }}</h1>
+    <div class="devlog-project-meta">
+      {{ partial "devlog/status.html" . }}
+      {{- with .Params.repo }}<a href="{{ . }}" rel="noopener">{{ replaceRE `^https?://` "" . }}</a>{{ end }}
+    </div>
+  </header>
+  <main class="page-content" aria-label="Content">
+    {{- partial "devlog/cover.html" (dict "page" . "width" 1600 "class" "devlog-cover devlog-cover--hero") -}}
+    {{- with .Params.summary }}<p class="devlog-lede">{{ . }}</p>{{ end }}
+    {{ .Content }}
+    <h2 class="devlog-group-title">Articles</h2>
+    {{- range .Pages.ByWeight }}{{ partial "postCard" . }}{{ end }}
+  </main>
+</div>
+{{- end -}}

@@ -1,0 +1,29 @@
+{{- /* The panel beside each article (docs/specs/devlog.md, Article spec sheet). Context: an article. */ -}}
+{{- $proj := partial "devlog/project-of.html" . -}}
+<aside class="devlog-spec" aria-label="About this article">
+  <dl>
+    {{- with $proj }}
+    <div><dt>Project</dt><dd><a href="{{ .RelPermalink }}">{{ .Title }}</a></dd></div>
+    <div><dt>Status</dt><dd>{{ partial "devlog/status.html" . }}</dd></div>
+    {{- end }}
+    {{- with .Params.kind }}
+    <div><dt>Kind</dt><dd>{{ index hugo.Data.kinds . | default . }}</dd></div>
+    {{- end }}
+    <div><dt>Stack</dt><dd>{{ partial "devlog/skill-chips.html" .Params.skills }}</dd></div>
+    {{- $repo := .Params.repo | default "" -}}
+    {{- if and (not $repo) $proj }}{{ $repo = $proj.Params.repo | default "" }}{{ end }}
+    <div><dt>Source</dt><dd>{{ with $repo }}<a href="{{ . }}" rel="noopener">{{ replaceRE `^https?://` "" . }}</a>{{ else }}Private{{ end }}</dd></div>
+    {{- with $proj }}
+    {{- $siblings := .Pages.ByWeight -}}
+    {{- if gt (len $siblings) 1 }}
+    {{- $pos := 0 -}}
+    {{- range $i, $p := $siblings }}{{ if eq $p.RelPermalink $.RelPermalink }}{{ $pos = $i }}{{ end }}{{ end -}}
+    <div><dt>In this project</dt><dd>
+      {{ add $pos 1 }} of {{ len $siblings }}
+      {{- if gt $pos 0 }}{{ with index $siblings (sub $pos 1) }}<br><a href="{{ .RelPermalink }}">← {{ .Title }}</a>{{ end }}{{ end }}
+      {{- if lt (add $pos 1) (len $siblings) }}{{ with index $siblings (add $pos 1) }}<br><a href="{{ .RelPermalink }}">{{ .Title }} →</a>{{ end }}{{ end }}
+    </dd></div>
+    {{- end }}
+    {{- end }}
+  </dl>
+</aside>

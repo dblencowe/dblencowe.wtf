@@ -1,0 +1,26 @@
+{{- define "main" -}}
+{{- $proj := partial "devlog/project-of.html" . -}}
+<div class="wrapper post devlog-wide">
+  <main class="page-content" aria-label="Content">
+    <article>
+      <header class="header devlog-header">
+        <p class="devlog-eyebrow">
+          {{- with .Params.kind }}{{ index hugo.Data.kinds . | default . }}{{ end -}}
+          {{- with $proj }} · <a href="{{ .RelPermalink }}">{{ .Title }}</a>{{ end -}}
+        </p>
+        <h1 class="header-title">{{ .Title }}</h1>
+      </header>
+      <div class="devlog-layout">
+        <div class="devlog-main">
+          {{- partial "devlog/cover.html" (dict "page" . "width" 1600 "class" "devlog-cover devlog-cover--hero") -}}
+          {{ partial "toc.html" . }}
+          <div class="page-content">
+            {{ .Content }}
+          </div>
+        </div>
+        {{ partial "devlog/spec-sheet.html" . }}
+      </div>
+    </article>
+  </main>
+</div>
+{{- end -}}
