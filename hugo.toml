@@ -81,7 +81,7 @@ theme = "hugo-blog-awesome"
   intro = "Dave Blencowe"
   name = "Dave Blencowe"
   email = "hi@dblencowe.wtf"  # public contact address, shown in the footer
-  description = "Principal cyber security engineer in Manchester. Notes on what I build: infrastructure, software, games and the workshop."
+  description = "Cyber security engineer and tech enthusiast in Manchester. This is where I write up the things I build."
 
 [[Languages.en-us.params.socialIcons]]
   name = "linkedin"
