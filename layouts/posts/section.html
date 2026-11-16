@@ -5,6 +5,9 @@
     <h1 class="header-title center">{{ .Title }}</h1>
   </header>
   <main class="page-content" aria-label="Content">
+    {{- if not .RegularPages }}
+    {{ partial "devlog/empty.html" "No articles yet." }}
+    {{- end }}
     {{- range $proj := partial "devlog/projects-ordered.html" . }}
     {{- with $proj.Pages.ByWeight }}
     <section class="devlog-group">

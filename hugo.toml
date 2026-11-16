@@ -69,7 +69,7 @@ theme = "hugo-blog-awesome"
 [Languages.en-us.params]
   sitename = "dblencowe.wtf"
   defaultColor = "auto" # set color mode: dark, light, auto
-  description = "Personal website and blog"
+  description = "Dave Blencowe's dev log: write-ups of the infrastructure, software, games and workshop builds he works on."
   mainSections = ['posts']
   toc = true
   tocOpen = false
@@ -78,10 +78,14 @@ theme = "hugo-blog-awesome"
   rssFeedDescription = "summary"
 
 [Languages.en-us.params.author]
-  intro = "Welcome to dblencowe.wtf"
+  intro = "Dave Blencowe"
   name = "Dave Blencowe"
   email = "hi@dblencowe.wtf"  # public contact address, shown in the footer
-  description = "Personal website and blog"
+  description = "Principal cyber security engineer in Manchester. Notes on what I build: infrastructure, software, games and the workshop."
+
+[[Languages.en-us.params.socialIcons]]
+  name = "linkedin"
+  url = "https://www.linkedin.com/in/dblencowe"
 
 [Languages.en-us.params.webmanifest]
   name = "dblencowe.wtf"

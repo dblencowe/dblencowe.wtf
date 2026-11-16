@@ -387,3 +387,12 @@ html.dark { @include devlog-dark; }
 @media (prefers-reduced-motion: reduce) {
   .devlog-chip, .devlog-filter { transition: none; }
 }
+
+// Empty lists (the site launches before any articles exist)
+.devlog-empty {
+  color: var(--dl-muted);
+  text-align: center;
+  padding: 2.5rem 0;
+
+  a { color: var(--dl-link); text-decoration: underline; }
+}

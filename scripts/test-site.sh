@@ -36,6 +36,18 @@ grep -rl "ai-writing-tropes\|AI Writing Tropes" "$WORK/real" >/dev/null 2>&1 \
   && fail T7 "tropes file reached public/ in the real build" \
   || pass "T7 docs/ never published (real build)"
 
+# --- Real site checks (launch content) ---------------------------------------
+R="$WORK/real"
+grep -q 'linkedin.com/in/dblencowe' "$R/about/index.html" && pass "about links LinkedIn" || fail "about LinkedIn"
+grep -q 'href=https://www.linkedin.com/in/dblencowe\|href="https://www.linkedin.com/in/dblencowe"' "$R/index.html" && pass "footer links LinkedIn" || fail "footer LinkedIn"
+! grep -q 'TableOfContents' "$R/about/index.html" && pass "about has no contents box" || fail "about TOC"
+# The real site has no articles yet, so every list should show its empty state.
+if [ -z "$(find "$R/posts" -mindepth 2 -name index.html ! -path '*/page/*')" ]; then
+  for page in index.html projects/index.html posts/index.html skills/index.html; do
+    grep -q 'devlog-empty' "$R/$page" && pass "empty state on /$page" || fail "empty state /$page"
+  done
+fi
+
 # --- Good fixture build -----------------------------------------------------
 GOOD=$(fixture good tests/fixtures/good)
 OUT="$WORK/out-good"

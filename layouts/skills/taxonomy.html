@@ -12,6 +12,9 @@
     {{- with .Params.summary }}<p class="devlog-lede center">{{ . }}</p>{{ end }}
   </header>
   <main aria-label="Content">
+    {{- if not $used }}
+    {{ partial "devlog/empty.html" "Skills appear here once articles are published." }}
+    {{- else }}
     <div class="devlog-domains">
       {{- range $d := $data.domainOrder }}
       {{- $rows := slice }}
@@ -63,6 +66,7 @@
       </div>
       <p class="devlog-count-line" id="devlog-count" aria-live="polite"></p>
     </section>
+    {{- end }}
   </main>
 </div>
 <script>

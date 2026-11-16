@@ -5,14 +5,18 @@
     {{- with .Params.summary }}<p class="devlog-lede center">{{ . }}</p>{{ end }}
   </header>
   <main aria-label="Content">
+    {{- with partial "devlog/projects-ordered.html" . }}
     <div class="devlog-cards">
-      {{- range partial "devlog/projects-ordered.html" . }}
+      {{- range . }}
       {{ partial "devlog/project-card.html" . }}
       {{- end }}
     </div>
-    {{- with site.GetPage "/posts" }}
-    <p class="devlog-more"><a href="{{ .RelPermalink }}">All articles ({{ len .RegularPages }}) →</a></p>
+    {{- else }}
+    {{ partial "devlog/empty.html" "No projects written up yet." }}
     {{- end }}
+    {{- with site.GetPage "/posts" }}{{ with .RegularPages }}
+    <p class="devlog-more"><a href="{{ (site.GetPage "/posts").RelPermalink }}">All articles ({{ len . }}) →</a></p>
+    {{- end }}{{ end }}
   </main>
 </div>
 {{- end -}}
