@@ -8,6 +8,7 @@ Read this before you add or change anything under `content/`. The design behind 
 2. **Dave's own words are his.** When an article comes from one of his drafts (the vault notes marked `stage: draft`), keep his text as it is. Don't rewrite, tidy or "improve" it unless he asks. You may list tropes you notice in the PR description.
 3. **Title-only ideas need Dave.** For a vault note marked `stage: idea`, ask Dave for the angle and audience before writing. Don't invent content.
 4. British spelling throughout.
+5. **Projects are named only on their own pages.** The About page and home bio describe what Dave builds in general terms; they never name a project. When a project becomes public it gets a page under `content/projects/`, so there's only one place to manage it. Don't mention how long Dave has been writing software, or when he started.
 
 ## How the site is organised
 
