@@ -130,6 +130,11 @@ H="$OUT/index.html"
 grep -q 'Alpha Article' "$H" && ! grep -q 'Beta Article' "$H" && pass "home shows only featured articles" || fail "home featured"
 grep -q 'Demo Project' "$H" && ! grep -q 'Shelf Project' "$H" && pass "home shows only active projects" || fail "home active"
 
+# --- Footer ------------------------------------------------------------------
+credit=$(grep -rli 'powered by\|hugo blog awesome' --include='*.html' "$OUT" | wc -l)
+[ "$credit" -eq 0 ] && pass "footer has no theme credit" || fail "footer credit" "$credit pages still credit the theme"
+grep -q 'href="mailto:hi@dblencowe.wtf">hi@dblencowe.wtf</a>' "$OUT/posts/alpha/index.html" && pass "footer shows the public email" || fail "footer email"
+
 rm -rf "$WORK"
 echo "RESULT pass=$PASS fail=$FAIL found=$((PASS + FAIL))"
 [ "$FAIL" -eq 0 ]

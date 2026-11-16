@@ -5,7 +5,7 @@ Personal website and blog built with [Hugo](https://gohugo.io/) using the [hugo-
 ## Features
 
 - **Light and Dark Mode**: Automatic theme switching based on user preference with manual toggle
-- **Custom Color Scheme**: Light mode uses `#fcc753` as the primary accent color
+- **Custom Color Scheme**: Light mode uses a soft butter background (`#fbf2d9`), with the brand yellow `#fcc753` for accents
 - **Minimal Design**: Clean, fast, and minimal blog theme
 - **No External Dependencies**: No Google Fonts, jQuery, or Bootstrap
 
@@ -86,12 +86,13 @@ This builds the real site and the fixture content under `tests/fixtures/`. It ch
 
 #### Changing Colors
 
-The main light mode color is set to `#fcc753` in `assets/sass/main.scss`. To change it:
+Colours live in `assets/sass/main.scss`:
 
-1. Edit `assets/sass/main.scss`
-2. Modify the `$text-link-blue` variable (line 3)
-3. Optionally adjust `$text-link-blue-active` for hover states (line 4)
-4. Restart the Hugo server to see changes
+- `$white` is the light-mode page background (`#fbf2d9`).
+- `$brand-yellow` (`#fcc753`) is the accent used for skill chips. It's also the browser theme colour in `hugo.toml`.
+- `$text-link-blue` and `$text-link-blue-active` set the link colours.
+
+The dev log's cards, chips and status colours are custom properties at the top of `assets/sass/_custom.scss`, with their dark-mode values beside them. Restart the Hugo server after changing them.
 
 #### Theme Configuration
 

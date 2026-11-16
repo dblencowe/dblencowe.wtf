@@ -80,6 +80,7 @@ theme = "hugo-blog-awesome"
 [Languages.en-us.params.author]
   intro = "Welcome to dblencowe.wtf"
   name = "Dave Blencowe"
+  email = "hi@dblencowe.wtf"  # public contact address, shown in the footer
   description = "Personal website and blog"
 
 [Languages.en-us.params.webmanifest]

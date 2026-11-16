@@ -1,0 +1,21 @@
+{{- /*
+  Replaces the theme's footer: drops the "Powered by" credit and shows the
+  public contact address as plain, selectable text with a mailto link.
+*/ -}}
+<footer class="footer">
+  {{- with site.Params.socialIcons }}
+  <div class="footer_social-icons">
+    {{- partial "socialIcons.html" . -}}
+  </div>
+  {{- end }}
+  <small class="footer_copyright">
+    © {{ now.Format "2006" }} {{ site.Params.author.name }}
+    {{- with site.Params.author.email }} · <a href="mailto:{{ . }}">{{ . }}</a>{{ end }}
+  </small>
+</footer>
+
+{{- if site.Params.goToTop -}}
+<a href="#" title="{{ T "footer.go_to_top" }}" id="totop">
+  {{ partial "svgs/arrowUp.svg" (dict "height" 48 "width" 48) . }}
+</a>
+{{- end -}}

@@ -1,13 +1,15 @@
 //////////////// 1. Light Colors - Custom Override /////////////////
-// Custom main light mode background color: #fcc753
+// Light mode: a soft butter background for comfortable reading. The brand
+// yellow #fcc753 is kept for accents (chips, the browser theme colour).
+$brand-yellow: #fcc753;
 $text-base-color: #434648;
-$text-link-blue: #003fff; // Dark blue for contrast on yellow background
+$text-link-blue: #003fff; // Dark blue for contrast on the yellow background
 $text-link-blue-active: #0036c7; // Darker blue for hover/active states
 $bloquote-border: #c4c8cc;
 $blockquote-text: #525b66;
 $inline-code-text: #333638;
-$inline-code-bg: #d8dbe2;
-$toc-bg: #edecec;
+$inline-code-bg: #efe0b6;
+$toc-bg: #f4e4b7;
 $go-top-bg: #dfe0e397;
 $go-top-bg-hover: #dfe0e3;
 
@@ -15,7 +17,7 @@ $black: #0d122b;
 $light: #ececec;
 $smoke: #d2c7c7;
 $gray: #6b7886;
-$white: #fcc753; // Custom background color
+$white: #fbf2d9; // Page background
 
 //////////////// 2. Dark Colors /////////////////
 $dark-text-base-color: #babdc4;
