@@ -25,7 +25,6 @@ This site is where I write up what I build, at work and at home: cloud infrastru
 | 2015 to 2016 | Full Stack Developer | blubolt |
 | 2010 to 2015 | Freelance developer and consultant | SyntaxMonster Ltd |
 | 2009 to 2010 | PHP Developer | Orangeleaf Systems |
-| 2002 to 2009 | PHP developer | Self-employed |
 
 Some of what that involved:
 
