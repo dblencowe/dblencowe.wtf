@@ -1,0 +1,12 @@
+# Pin line endings: Cavil would otherwise check out CRLF, which breaks
+# anything run on Linux (the Hugo container, CI, shell scripts).
+* text=auto eol=lf
+
+*.png  binary
+*.jpg  binary
+*.jpeg binary
+*.gif  binary
+*.webp binary
+*.ico  binary
+*.woff binary
+*.woff2 binary
