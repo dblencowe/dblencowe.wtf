@@ -13,9 +13,6 @@ This site is my notebook for all of it. I write things up so I can remember how 
 ## The day job
 
 I'm a principal security engineer at [watchTowr](https://watchtowr.com). Before that I built and ran platforms at a fintech, in the motor trade and at a run of agencies, and led the teams doing it. The curiosity behind the side projects is what I bring to work now, and the two feed each other more than I expected. If you want the formal version, it's on [LinkedIn](https://www.linkedin.com/in/dblencowe).
-
-I'm also a STEM Ambassador, so now and then I turn up at events to show kids how much fun tech can be.
-
 ## Say hello
 
 Email me at hi@dblencowe.wtf.
