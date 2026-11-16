@@ -47,8 +47,9 @@ html.dark { @include devlog-dark; }
   color: var(--dl-muted);
   max-width: 34rem;
   margin: -0.5rem auto 2rem;
+  text-align: center;
 
-  &:not(.center) { margin: 0 0 1.5rem; }
+  &:not(.center) { margin: 0 0 1.5rem; text-align: left; }
 }
 
 .devlog-eyebrow,

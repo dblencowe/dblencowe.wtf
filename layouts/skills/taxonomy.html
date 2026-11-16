@@ -9,7 +9,8 @@
 <div class="wrapper devlog-wide">
   <header class="header">
     <h1 class="header-title center">{{ .Title }}</h1>
-    {{- with .Params.summary }}<p class="devlog-lede center">{{ . }}</p>{{ end }}
+    {{- /* The summary talks about filtering, so hide it until there's something to filter. */}}
+    {{- if $used }}{{ with .Params.summary }}<p class="devlog-lede center">{{ . }}</p>{{ end }}{{ end }}
   </header>
   <main aria-label="Content">
     {{- if not $used }}
