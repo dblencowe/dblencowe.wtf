@@ -13,7 +13,8 @@
       <div class="devlog-layout">
         <div class="devlog-main">
           {{- partial "devlog/cover.html" (dict "page" . "width" 1600 "class" "devlog-cover devlog-cover--hero") -}}
-          {{ partial "toc.html" . }}
+          {{- /* Only offer a table of contents when the article has headings. */ -}}
+          {{- if .Fragments.Identifiers }}{{ partial "toc.html" . }}{{ end }}
           <div class="page-content">
             {{ .Content }}
           </div>
